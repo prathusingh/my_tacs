@@ -1,0 +1,174 @@
+<div ng-include="'partials/navbar.html'" ></div>
+<div ng-controller="HomeCtrl">	
+	<nav class="navbar navbar-inverse" role="navigation" style="margin-top:3px;">
+		<div class="container-fluid" >
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header" >
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/home">MyTacks</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" style="background: black;" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/dashboard">Dashboard</a></li>
+					<!--<li><a href="#">Link</a></li>
+					<li class="dropdown">
+						<a href="/home" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul>
+					</li>-->
+				</ul>
+				<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="/home" class="dropdown-toggle" data-toggle="dropdown">Add Tack <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<div class="form-group">
+									<form class="form-horizontal" ng-submit="addTack()">
+
+										
+										<input type="url" class="form-control" ng-model="formData.link" placeholder="http://">
+										
+										<input type="url" class="form-control" ng-model="formData.imageURL" placeholder="Image URL">
+										
+										<input type="text" class="form-control" ng-model="formData.title" placeholder="Title">
+										
+										<input type="text" class="form-control" ng-model="formData.desc" placeholder="Description">
+										
+										<input type="text" class="form-control" ng-model="formData.board" placeholder="Which Board?">
+										<button type="submit" class="btn btn-primary">Add</button>
+										
+									</form>
+								</div>
+							</ul>
+					</li>
+					<li><a href="#"><span ng-show="currentUser">Hi {{ currentUser.name }}!</span></a></li>  
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+
+		<div class="navbar-default navbar-static-side" style= "background-color : black;"role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/dashboard" style="color: rgb(223, 140, 173);" ><i class="fa fa-dashboard fa-fw"></i> Boards</a>
+                        </li>
+                        <li>
+                            <a href="/settings" style="color: rgb(223, 140, 173);" ><i class="fa fa-edit fa-fw"></i> Update Profile</a>
+                        </li>
+                        <li ng-repeat="boards in currentUser.boards_created" ng-class="{active : isSelected(boards)}">
+                            <a href="/dashboard/boardTacks" style="color: rgb(223, 140, 173);" ng-click="setMaster(boards)"><i class="fa fa-fw"></i> {{ boards }}</a>
+                        </li>
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+        </div>
+            <!-- /.navbar-static-side -->
+	</nav>
+
+
+	<div id="page-wrapper" style="background:transparent;">
+            <div class="row">
+            	<div class="dropdown pull-right">
+					<a href="/dashboard/boardTacks" style="display:block; padding:1em; background:darkred; color:white; border-radius: 8px; text-align:right;" data-reveal-id="registerModal" data-toggle="dropdown">Delete Board
+					<span class="glyphicon glyphicon-remove"></span></a>
+					<ul class="dropdown-menu">
+							<div class="form-group">
+									<form class="form-horizontal" ng-submit="removeBoard()">
+										<input type="text" class="form-control center-block" ng-model="formData.board" placeholder="{{ selected }}">
+										<h1></h1>
+										<button type="submit" class="btn btn-primary center-block">Confirm</button>	
+									</form>
+							</div>
+					</ul>
+				</div>
+
+				<h1 class="page-header"></h1>
+
+                <div class="col-lg-12">
+                    <h1 class="page-header"><center style = "background-color: rgb(65, 5, 50); color: white; padding: 10px; border-radius: 50px">{{ selected }}</center></h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+            		<div class="container">
+					<div id="wrapper">
+					<div id="columns">
+						<div ng-repeat="tack in feed">
+							<div class="pin" ng-if="selected == tack.boards">
+								<a ng-model="link" href="{{ tack.link }}"><h3 style = "color: rgb(209, 19, 19);"><center>{{ tack.title }}</center></h3></a>
+								<img src="{{ tack.imageURL || 'http://www.designofsignage.com/application/symbol/building/image/600x600/no-photo.jpg' }}" />
+								<p>
+									{{ tack.desc }}
+								</p>
+								<br>
+								<button ng-click="deleteTack(tack, selected)" class="btn btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+								</button>
+								<!--<button ng-click="deleteTack(tack.link)" class="btn btn-primary">Update</button>-->
+								
+								<div class="dropdown pull-right">
+								<button ng-click="updateValues(tack)" href="/dashboard/boardTacks" style="text-align:right;" data-toggle="dropdown" class="btn btn-primary">
+								<span class="glyphicon glyphicon-pencil"></span></button>
+								<ul class="dropdown-menu">
+									<div class="form-group">
+											<form class="form-horizontal" ng-submit="updateTack()">
+												<input type="url" class="form-control" ng-model="formData.link" placeholder="{{ tack.link }}">
+												
+												<input type="text" class="form-control" ng-model="formData.title" placeholder="Title">
+										
+												<input type="text" class="form-control" ng-model="formData.desc" placeholder="Description">
+
+												<button type="submit" class="btn btn-primary center-block">Update</button>	
+											</form>
+									</div>
+								</ul>
+								</div>
+								
+								<!--<div class="dropdown pull-right">
+								<a href="/dashboard/boardTacks" style="display:block; padding:1em; background:#DBDBD2; text-align:right;" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-remove"></span></a>
+								<ul class="dropdown-menu">
+									<div class="form-group">
+											<form class="form-horizontal" ng-submit="deleteTack()">
+												<input type="url" class="form-control" ng-model="formData.link" placeholder="{{ tack.link }}">
+
+												<input type="text" class="form-control center-block" ng-model="formData.board" placeholder="{{ selected }}">
+												<h1></h1>
+												<button type="submit" class="btn btn-primary center-block">Confirm</button>	
+											</form>
+									</div>
+								</ul>
+								</div>-->
+								
+							</div>
+						</div>
+				 	</div>
+					</div>
+					</div>	
+
+			</div>
+    </div>
+    <!-- /#page-wrapper-->
+</div>

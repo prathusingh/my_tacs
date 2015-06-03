@@ -1,0 +1,29 @@
+<div ng-controller="HomeCtrl">
+
+<div class="col-sm-12 col-sm-push-3" style="margin-top:4em; height:25em;">
+              <div class="col-sm-6">
+                <form class="form-horizontal"  name="form" ng-submit="changePassword(form)" novalidate>
+      
+                <div class="form-group">
+                  <label class="sr-only">Current Password</label>
+                  <input type="password" name="password" class="form-control" placeholder="Current Password" ng-model="user.oldPassword" mongoose-error/>    
+                  <p class="help-block" ng-show="form.password.$error.mongoose">
+                      {{ errors.other }}
+                  </p>
+                </div>
+
+                <div class="form-group">
+                  <label class="sr-only">New Password</label>
+                  <input type="password" name="newPassword" placeholder="New Password" class="form-control" ng-model="user.newPassword" ng-minlength="3" required/>
+                  <p class="help-block"
+                     ng-show="(form.newPassword.$error.minlength || form.newPassword.$error.required) && (form.newPassword.$dirty || submitted)">
+                    Password must be at least 3 characters.
+                  </p>
+                </div>
+
+                <p class="help-block"> {{ message }} </p>
+
+                <button class="btn btn-lg btn-primary center-block" style="position:relative; center:-12em;" type="submit">Save changes</button>
+              </form>
+            </div>
+          </div>

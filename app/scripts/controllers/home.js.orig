@@ -1,0 +1,114 @@
+// Name: home.js 
+// Description: This is main javascript for consisiting of HomeCtrl
+// API: /api/addtack, /api/addboard, /api/addboard, /api/removeboard, /api/deletetack, /api/updatetack
+'use strict';
+
+angular.module('mytacksApp')
+.controller('HomeCtrl', function($scope, User, $http, Session, $location, $rootScope){
+
+	$scope.user = $rootScope.currentUser;
+<<<<<<< HEAD
+	//$scope.user = currentUser.name || '';
+
+	// $http.get('/api/users/me').success(function(user) {
+ //      $scope.user = user.name;
+ //      console.dir(user);
+ //    });
+	
+	
+	var show = true;
+=======
+>>>>>>> cf4371947ce0fedcf191286cc2c36e3e85cf02ba
+
+	// Scope user 
+	$scope.setMaster = function(boards) {
+    $scope.selected = boards;
+	};
+
+	$scope.isSelected = function(boards) {
+    return $scope.selected === boards;
+	};
+
+<<<<<<< HEAD
+	//$scope.link = '';	
+=======
+	// Adding a Tack
+>>>>>>> cf4371947ce0fedcf191286cc2c36e3e85cf02ba
+	$scope.formData = {};
+	$scope.addTack = function(){
+		
+		$http.post('/api/addtack', $scope.formData)
+		.success(function(){
+			alert("Added Tack");
+<<<<<<< HEAD
+			show = false;
+			//$scope.posts = $http.get('/api/posts').success(function(data){$scope.posts = data;});
+=======
+>>>>>>> cf4371947ce0fedcf191286cc2c36e3e85cf02ba
+		});
+	};
+
+	// Adding a Board
+	$scope.addBoard = function(){
+		$http.post('/api/addboard', $scope.formData)
+		.success(function(){ 
+
+			alert("Added Board");
+			window.location.href = "/dashboard";
+		});
+	};
+
+	// Removing a Board
+	$scope.removeBoard = function(){
+		$http.post('/api/removeboard', $scope.formData)
+		.success(function(){ 
+			alert("Removed Board");
+			window.location.href = "/dashboard";
+		});
+	};
+
+	// Removing a Tack
+	$scope.deleteTack = function(){
+		$http.post('/api/deletetack', $scope.formData)
+		.success(function(){ 
+			alert("Removed Tack");
+			window.location.href = "/dashboard"
+		});
+	};
+
+<<<<<<< HEAD
+	$scope.deleteTack = function(tack, selected){
+=======
+	// Updating a Tack
+	$scope.updateTack = function(){
+		$http.post('/api/updatetack', $scope.formData)
+		.success(function(){ 
+			alert("Updated Tack");
+			window.location.href = "/dashboard"
+		});
+	};
+
+	/*$scope.deleteTack = function(link){
+>>>>>>> cf4371947ce0fedcf191286cc2c36e3e85cf02ba
+        debugger; 
+        //alert(link);
+        $scope.formData.tack = tack;
+        $scope.formData.board = $scope.selected;
+		$http.post('/api/deletetack/', $scope.formData).success(function(){
+			alert('Tack Deleted');
+		});
+<<<<<<< HEAD
+	};
+
+	// Modal
+	
+		
+
+// Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+
+
+=======
+	};*/
+>>>>>>> cf4371947ce0fedcf191286cc2c36e3e85cf02ba
+});

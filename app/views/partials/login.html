@@ -1,0 +1,35 @@
+<div ng-include="'partials/navbar.html'"></div>
+<!-- Login Page for MyTacks -->
+<div class="col-sm-10 col-sm-push-4" style="margin-top:6em; height:25em;">
+  <div class="col-sm-6">
+    <h2 style="text-align:center; margin-bottom:1em; border-bottom:1px ">Login</h2>
+    <form class="form-horizontal" name="form" ng-submit="login(form)" novalidate>
+      
+      <div class="form-group">
+        <label class="sr-only">Email</label>
+        <input type="text" name="email" class="form-control" placeholder="Email Address" ng-model="user.email">
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only">Password</label>  
+        <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password">
+      </div>
+
+      <div class="form-group has-error">
+        <p class="help-block" ng-show="form.email.$error.required && form.password.$error.required && submitted">
+           Please enter your email and password.
+        </p>              
+        <p class="help-block">{{ errors.other }}</p>
+      </div>
+
+      <div class="btn-group">
+      <button type="submit" class="btn btn-lg btn-primary" style="position:relative; right:-9em;">Sign In</button>
+      </div>
+
+      <hr style="position:relative; middle:-.75em;"/>
+      <p style="text-align:center;" > 
+        Not registered? <a href="/signup" class="text-center new-account">Create an account.</a>
+      </p>
+    </form>
+  </div>
+</div>
